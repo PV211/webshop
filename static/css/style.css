@@ -420,7 +420,10 @@ textarea.input {
 
 .header-logo .logo img {
     display: block;
+    width: 60px; 
+    height: auto; 
 }
+
 
 /*----------------------------*\
 	Search
