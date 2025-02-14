@@ -20,6 +20,11 @@ body {
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     color: #333;
+    background-image: url('https://uaspectr.com/wp-content/uploads/2021/03/shutterstock_1068141515-scaled.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 h1,
@@ -61,7 +66,7 @@ ol {
 .primary-btn {
     display: inline-block;
     padding: 12px 30px;
-    background-color: #d10024;
+    background-color: #3e83a3;
     border: none;
     border-radius: 40px;
     color: #fff;
@@ -467,7 +472,7 @@ textarea.input {
 .header-search form .search-btn {
     height: 40px;
     width: 100px;
-    background: #d10024;
+    background: #4049c7;
     color: #fff;
     font-weight: 700;
     border: none;
@@ -519,7 +524,7 @@ textarea.input {
     border-radius: 50%;
     font-size: 10px;
     color: #fff;
-    background-color: #d10024;
+    background-color: #2693be;
 }
 
 .header-ctn .menu-toggle {
@@ -606,7 +611,7 @@ textarea.input {
 
 #navigation {
     border-bottom: 2px solid #e4e7ed;
-    border-top: 3px solid #d10024;
+    border-top: 3px solid #45887f;
     background-color: rgba(123, 146, 150, 0.8); /* Білий фон з прозорістю */
     backdrop-filter: blur(10px); /* Розмиття фону */
     padding: 10px 0; /* Внутрішні відступи */
@@ -627,7 +632,7 @@ textarea.input {
 .main-nav > li > a:hover,
 .main-nav > li > a:focus,
 .main-nav > li.active > a {
-    color: #d10024;
+    color: #101947;
     background-color: transparent;
 }
 
@@ -636,7 +641,7 @@ textarea.input {
     display: block;
     width: 0%;
     height: 2px;
-    background-color: #d10024;
+    background-color: #a1b0c2;
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
