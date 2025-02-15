@@ -20,11 +20,6 @@ body {
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     color: #333;
-    background-image: url('https://uaspectr.com/wp-content/uploads/2021/03/shutterstock_1068141515-scaled.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
 }
 
 h1,
@@ -43,6 +38,7 @@ a {
     font-weight: 500;
     -webkit-transition: 0.2s color;
     transition: 0.2s color;
+    text-decoration: none;
 }
 
 a:hover,
@@ -437,14 +433,8 @@ textarea.input {
     background-color: #15161d;
 }
 
-.header-logo {
-    float: left;
-}
-
 .header-logo .logo img {
-    display: block;
     width: 60px;
-    height: auto;
 }
 
 /*----------------------------*\
@@ -641,7 +631,7 @@ textarea.input {
     display: block;
     width: 0%;
     height: 2px;
-    background-color: #a1b0c2;
+    background-color: rgb(100, 100, 100);
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
@@ -2024,7 +2014,6 @@ textarea.input {
 }
 
 .footer {
-    text-align: center;
     margin: 30px 0px;
 }
 

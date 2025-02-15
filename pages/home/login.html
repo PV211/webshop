@@ -1,0 +1,39 @@
+{% extends '_layout/index.html' %} {% block content %}
+<form action="/login/" method="post" class="d-flex flex-column gap-4">
+    {% csrf_token %}
+    <div>
+        <label for="name" class="form-label">
+            Ім'я
+            <strong class="text-danger">*</strong>
+        </label>
+        <input
+            type="text"
+            name="name"
+            id="name"
+            class="form-control"
+            required
+        />
+    </div>
+    <div>
+        <label for="email" class="form-label">Електронна пошта</label>
+        <input type="email" name="email" id="email" class="form-control" />
+    </div>
+    <div class="mb-4">
+        <label for="password" class="form-label">
+            Пароль
+            <strong class="text-danger">*</strong>
+        </label>
+        <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+            required
+        />
+    </div>
+    <div class="d-flex gap-3">
+        <input type="submit" value="Вхід" class="btn btn-success w-50" />
+        <input type="reset" value="Скасувати" class="btn btn-secondary w-50" />
+    </div>
+</form>
+{% endblock content %}
