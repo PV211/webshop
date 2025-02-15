@@ -1,13 +1,14 @@
 {% load static %}
 <div id="header" class="bg-dark">
     <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-3">
-                <div class="header-logo">
-                    <a href="/" class="logo">
-                        <img src="{% static 'img/logo.png' %}" />
-                    </a>
-                </div>
+                <a href="/">
+                    <img
+                        src="{% static 'img/logo.png' %}"
+                        style="width: 60px"
+                    />
+                </a>
             </div>
             <div class="col-md-6">
                 <div class="header-search">
@@ -20,11 +21,11 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-3 clearfix">
+            <div class="col-md-3">
                 <div class="header-ctn">
                     <div>
                         <a href="#">
-                            <i class="fa fa-heart-o"></i>
+                            <i class="fa fa-heart"></i>
                             <span>Обране</span>
                             <div class="qty">0</div>
                         </a>
