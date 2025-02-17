@@ -1,0 +1,13 @@
+{
+  "lastRun": "20250215130935-FirstMigtation.js",
+  "migrations": [
+    {
+      "title": "20250215125544-FirstMigtation.js",
+      "timestamp": 1739624996157
+    },
+    {
+      "title": "20250215130935-FirstMigtation.js",
+      "timestamp": 1739624996161
+    }
+  ]
+}

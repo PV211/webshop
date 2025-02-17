@@ -3,6 +3,11 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+import json
+import requests
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.conf import settings
 
 def index(request):
     return render(request, 'home/index.html', {
@@ -65,3 +70,92 @@ def signout(request):
     messages.success(request, 'Вихід успішний!')
 
     return redirect('/')
+
+@require_POST
+def xai_consultant(request):
+    try:
+        user_message = request.POST.get('message')
+        
+        if not user_message:
+            return JsonResponse({'error': 'No message provided'}, status=400)
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {settings.XAI_API_KEY}"
+        }
+
+        data = {
+            "messages": [
+                {"role": "system", "content": "You are an online consultant for a book store. Your task is to help customers find books, provide recommendations, answer questions about books, and assist with the shopping process."},
+                {"role": "user", "content": user_message}
+            ],
+            "model": "grok-2-latest",
+            "stream": False,
+            "temperature": 0
+        }
+
+        response = requests.post('https://api.x.ai/v1/chat/completions', headers=headers, json=data)
+        response.raise_for_status()
+        
+        # Додаткова логіка для обробки відповіді, наприклад, форматування чи вилучення певної інформації
+        api_response = response.json()
+        if 'choices' in api_response and api_response['choices']:
+            consultant_response = api_response['choices'][0]['message']['content']
+            return JsonResponse({'response': consultant_response})
+        else:
+            return JsonResponse({'error': 'Unexpected API response format'}, status=500)
+
+    except requests.RequestException as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+# ШІ для пошуку книг на майбутнє зразок
+# @require_POST
+# def xai_consultant(request):
+    try:
+        user_message = request.POST.get('message')
+        
+        if not user_message:
+            return JsonResponse({'error': 'No message provided'}, status=400)
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {settings.XAI_API_KEY}"
+        }
+
+        # Перевірка на наявність книги в базі даних
+        if "чи є у вас книга" in user_message.lower():
+            book_title = user_message.split("чи є у вас книга")[1].strip().strip("'\"")
+            book = Book.objects.filter(title__icontains=book_title).first()
+            if book:
+                response_message = f"Так, у нас є книга '{book.title}' від {book.author}. Ціна: {book.price} грн. Наявність: {book.stock} шт."
+            else:
+                response_message = "На жаль, такої книги у нас немає. Можу запропонувати схожі книги або рекомендації."
+            
+            return JsonResponse({'response': response_message})
+
+        data = {
+            "messages": [
+                {"role": "system", "content": "You are an online consultant for a book store. Your task is to help customers find books, provide recommendations, answer questions about books, and assist with the shopping process."},
+                {"role": "user", "content": user_message}
+            ],
+            "model": "grok-2-latest",
+            "stream": False,
+            "temperature": 0
+        }
+
+        response = requests.post('https://api.x.ai/v1/chat/completions', headers=headers, json=data)
+        response.raise_for_status()
+        
+        api_response = response.json()
+        if 'choices' in api_response and api_response['choices']:
+            consultant_response = api_response['choices'][0]['message']['content']
+            return JsonResponse({'response': consultant_response})
+        else:
+            return JsonResponse({'error': 'Unexpected API response format'}, status=500)
+
+    except requests.RequestException as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+def consult_page(request):
+    return render(request, 'consult.html')

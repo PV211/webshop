@@ -128,3 +128,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+import os
+XAI_API_KEY = os.getenv('XAI_API_KEY', 'xai-vOyZNHwZe24QiHTlaTB7xGZGWS3AtQITzIi5XgUqWLbGuDQU7jnKmrvmx5msr7bbMIV6z4rZpPpgA0Is')
