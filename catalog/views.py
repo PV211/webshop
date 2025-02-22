@@ -5,15 +5,15 @@ from .models import Author, Book
 def index (request):
     response = dict()
 
-    PAGE_SIZE = (10,)
+    PAGE_SIZE = 3
 
     all_books = Book.objects.all()
     all_authors = Author.objects.all()
 
 
-    paginatior = Paginator(all_books, PAGE_SIZE[0])
+    paginator = Paginator(all_books, PAGE_SIZE) 
     page_number = request.GET.get('page')
-    page_obj = paginatior.get_page(page_number)
+    page_obj = paginator.get_page(page_number)
 
     response['page_title'] = 'Каталог'
     response['page'] = 'index'
