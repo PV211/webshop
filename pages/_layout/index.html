@@ -19,6 +19,25 @@
         />
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
         <link rel="shortcut icon" href="{% static 'img/logo.png' %}" />
+        <!-- Я в душе не гребу почему стили не переносяться в css -->
+        <style>
+            #openModal {
+                position: fixed; /* Фіксована позиція */
+                bottom: 20px; /* Відстань від нижнього краю */
+                right: 20px; /* Відстань від правого краю */
+                z-index: 1000; /* Забезпечує, що кнопка буде поверх інших елементів */
+                padding: 15px 20px; /* Внутрішні відступи для кнопки */
+                background-color: #007bff; /* Колір фону кнопки */
+                color: white; /* Колір тексту */
+                border: none; /* Без рамки */
+                border-radius: 20px; /* Закруглені кути */
+                cursor: pointer; /* Курсор у вигляді руки при наведенні */
+            }
+    
+            #openModal:hover {
+                background-color: #0056b3; /* Темніший колір при наведенні */
+            }
+        </style>
     </head>
     <body>
         {% for message in messages %}
@@ -53,12 +72,75 @@
             <div class="container">
                 {% block content %}{% endblock content %}
             </div>
+          
         </main>
 
         <footer id="footer">{% include '_layout/footer.html' %}</footer>
+        
+
+        <!-- Модальне вікно -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Консультант</h2>
+                <input type="text" id="message-input" placeholder="Введіть ваше повідомлення">
+                <button id="send-button">Надіслати</button>
+                <div id="response-area"></div>
+            </div>
+        </div>
+        <button id="openModal">Отримати консультацію</button>
+        <!-- Скріпт консультанта  -->
+        <script>
+            // JavaScript для керування модальним вікном
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("openModal");
+            var span = document.getElementsByClassName("close")[0];
+    
+            // Відкриття модального вікна
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+    
+            // Закриття модального вікна при кліку на 'x'
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+    
+            // Закриття модального вікна при кліку поза ним
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+    
+            // Відправка повідомлення через API
+            document.getElementById('send-button').addEventListener('click', function() {
+                const message = document.getElementById('message-input').value;
+                fetch('/consult/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: new URLSearchParams({
+                        'message': message
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const responseText = data.choices ? data.choices[0].message.content : JSON.stringify(data);
+                    document.getElementById('response-area').innerText = responseText;
+                })
+                .catch((error) => {
+                    console.error('Помилка:', error);
+                    document.getElementById('response-area').innerText = 'Виникла помилка.';
+                });
+            });
+        </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
         <script src="{% static 'js/index.js' %}"></script>
     </body>
+
 </html>
