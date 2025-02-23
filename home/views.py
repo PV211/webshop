@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from catalog.models import Book  
+import logging
 
 def index(request):
     return render(request, 'home/index.html', {
@@ -73,134 +74,141 @@ def signout(request):
     return redirect('/')
 
 
-
-@require_POST
-def xai_consultant(request):
-    try:
-        user_message = request.POST.get('message')
-        
-        if not user_message:
-            return JsonResponse({'error': 'No message provided'}, status=400)
-
-        # Логіка пошуку книги в базі даних
-        if "чи є у вас книга" in user_message.lower():
-            # Видаляємо зайві пробіли та лапки з назви книги
-            book_title = user_message.split("чи є у вас книга")[1].strip().strip("'\"")
-            
-            # Пошук книги в базі даних (з урахуванням нечіткого пошуку)
-            book = Book.objects.filter(title__icontains=book_title).first()
-            
-            if book:
-                response_message = (
-                    f"Так, у нас є книга '{book.title}' від {book.author.name}. "
-                    f"Ціна: {book.price} грн. Наявність: {book.stock} шт."
-                )
-            else:
-                response_message = (
-                    "На жаль, такої книги у нас немає. "
-                    "Можу запропонувати схожі книги або рекомендації."
-                )
-            
-            return JsonResponse({'response': response_message})
-
-        # Якщо запит не стосується пошуку книги, використовуємо API xAI
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {settings.XAI_API_KEY}"
-        }
-
-        data = {
-            "messages": [
-                {"role": "system", "content": "You are an online consultant for a book store. Your task is to help customers find books, provide recommendations, answer questions about books, and assist with the shopping process."},
-                {"role": "user", "content": user_message}
-            ],
-            "model": "grok-2-latest",
-            "stream": False,
-            "temperature": 0
-        }
-
-        response = requests.post('https://api.x.ai/v1/chat/completions', headers=headers, json=data)
-        response.raise_for_status()
-        
-        api_response = response.json()
-        if 'choices' in api_response and api_response['choices']:
-            consultant_response = api_response['choices'][0]['message']['content']
-            return JsonResponse({'response': consultant_response})
-        else:
-            return JsonResponse({'error': 'Unexpected API response format'}, status=500)
-
-    except requests.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=500)
-    except Exception as e:
-        return JsonResponse({'error': f'Internal server error: {str(e)}'}, status=500)
-    
-
-
-def xai_consultant(request):
-    try:
-        user_message = request.POST.get('message')
-        
-        if not user_message:
-            return JsonResponse({'error': 'No message provided'}, status=400)
-
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {settings.XAI_API_KEY}"
-        }
-
-        data = {
-            "messages": [
-                {"role": "system", "content": "You are an online consultant for a book store. Your task is to help customers find books, provide recommendations, answer questions about books, and assist with the shopping process."},
-                {"role": "user", "content": user_message}
-            ],
-            "model": "grok-2-latest",
-            "stream": False,
-            "temperature": 0
-        }
-
-        response = requests.post('https://api.x.ai/v1/chat/completions', headers=headers, json=data)
-        response.raise_for_status()
-        
-        # Додаткова логіка для обробки відповіді, наприклад, форматування чи вилучення певної інформації
-        api_response = response.json()
-        if 'choices' in api_response and api_response['choices']:
-            consultant_response = api_response['choices'][0]['message']['content']
-            return JsonResponse({'response': consultant_response})
-        else:
-            return JsonResponse({'error': 'Unexpected API response format'}, status=500)
-
-    except requests.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=500)
-
-# ШІ для пошуку книг на майбутнє зразок
+# logger = logging.getLogger(__name__)
 # @require_POST
 # def xai_consultant(request):
+#     try:
+#         user_message = request.POST.get('message')
+        
+#         if not user_message:
+#             return JsonResponse({'error': 'No message provided'}, status=400)
+
+#         # Логіка пошуку книги в базі даних
+#         if "чи є у вас книга" in user_message.lower():
+#             parts = user_message.split("чи є у вас книга")
+#             if len(parts) > 1:
+#                 book_title = parts[1].strip().strip("'\"")
+#                 if not book_title:
+#                     return JsonResponse({'error': 'Не вказано назву книги після "чи є у вас книга"'}, status=400)
+                
+#                 try:
+#                     # Пошук книги в базі даних
+#                     book = Book.objects.filter(title__icontains=book_title).first()
+
+#                     if book:
+#                         # Перевірка на наявність автора
+#                         author_name = book.author.name if book.author and book.author.name else "Невідомий автор"
+#                         response_message = (
+#                             f"Так, у нас є книга '{book.title}' від {author_name}. "
+#                             f"Ціна: {book.price} грн. Наявність: {book.stock} шт."
+#                         )
+#                     else:
+#                         response_message = (
+#                             "На жаль, такої книги у нас немає. "
+#                             "Можу запропонувати схожі книги або рекомендації."
+#                         )
+#                 except OperationalError as e:
+#                     logger.error(f"OperationalError: {str(e)}", exc_info=True)
+#                     return JsonResponse({'error': 'Database is unavailable. Try again later.'}, status=500)
+#                 except DatabaseError as e:
+#                     logger.error(f"DatabaseError: {str(e)}", exc_info=True)
+#                     return JsonResponse({'error': 'A database error occurred. Please contact support.'}, status=500)
+#                 except Exception as e:
+#                     logger.error(f"Unexpected error: {str(e)}", exc_info=True)
+#                     return JsonResponse({'error': 'Internal server error while accessing the database.'}, status=500)
+
+#                 return JsonResponse({'response': response_message})
+#             else:
+#                 return JsonResponse({'error': 'Не вказано назву книги після "чи є у вас книга"'}, status=400)
+
+#         # Якщо запит не стосується пошуку книги, використовуємо API xAI
+#         headers = {
+#             "Content-Type": "application/json",
+#             "Authorization": f"Bearer {settings.XAI_API_KEY}"
+#         }
+
+#         data = {
+#             "messages": [
+#                 {"role": "system", "content": "You are an online consultant for a book store. Your task is to help customers find books, provide recommendations, answer questions about books, and assist with the shopping process."},
+#                 {"role": "user", "content": user_message}
+#             ],
+#             "model": "grok-2-latest",
+#             "stream": False,
+#             "temperature": 0
+#         }
+
+#         response = requests.post('https://api.x.ai/v1/chat/completions', headers=headers, json=data)
+#         response.raise_for_status()
+        
+#         api_response = response.json()
+#         if 'choices' in api_response and api_response['choices']:
+#             consultant_response = api_response['choices'][0]['message']['content']
+#             return JsonResponse({'response': consultant_response})
+#         else:
+#             return JsonResponse({'error': 'Unexpected API response format'}, status=500)
+
+#     except requests.RequestException as e:
+#         logger.error(f"RequestException: {str(e)}", exc_info=True)
+#         return JsonResponse({'error': str(e)}, status=500)
+#     except Exception as e:
+#         logger.error(f"General Exception: {str(e)}", exc_info=True)
+#         return JsonResponse({'error': f'Internal server error: {str(e)}'}, status=500)
+
+
+logger = logging.getLogger(__name__)
+
+def xai_consultant(request):
     try:
         user_message = request.POST.get('message')
-        
+
         if not user_message:
             return JsonResponse({'error': 'No message provided'}, status=400)
 
+        # Перевірка, чи містить запит "чи є у вас книга"
+        if "чи є у вас книга" in user_message.lower():
+            parts = user_message.split("чи є у вас книга")
+            if len(parts) > 1:
+                book_title = parts[1].strip().strip("'\"")
+                if not book_title:
+                    return JsonResponse({'error': 'Не вказано назву книги після "чи є у вас книга"'}, status=400)
+                
+                try:
+                    # Шукаємо всі книги, що містять в назві `book_title`
+                    books = Book.objects.filter(title=book_title)
+
+                    if books.exists():
+                        response_message = "Знайдені книги:\n"
+                        for book in books:
+                            author_name = book.author.name if book.author and book.author.name else "Невідомий автор"
+                            response_message += f"'{book.title}' від {author_name}. Ціна: {book.price} грн.\n"
+                    else:
+                        response_message = "На жаль, такої книги у нас немає. Можу запропонувати схожі книги або рекомендації."
+                except Exception as e:
+                    logger.error(f"Помилка під час запиту до бази даних: {str(e)}", exc_info=True)
+                    return JsonResponse({'error': 'Внутрішня помилка сервера при доступі до бази даних.'}, status=500)
+
+                return JsonResponse({'response': response_message})
+
+        # Якщо запит не про книгу, тоді відправляємо його до XAI API
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {settings.XAI_API_KEY}"
         }
+        
+        books_data = list(Book.objects.select_related('author')
+                   .values('title', 'author__name', 'price', 'stock', 'genre', 'description'))
 
-        # Перевірка на наявність книги в базі даних
-        if "чи є у вас книга" in user_message.lower():
-            book_title = user_message.split("чи є у вас книга")[1].strip().strip("'\"")
-            book = Book.objects.filter(title__icontains=book_title).first()
-            if book:
-                response_message = f"Так, у нас є книга '{book.title}' від {book.author}. Ціна: {book.price} грн. Наявність: {book.stock} шт."
-            else:
-                response_message = "На жаль, такої книги у нас немає. Можу запропонувати схожі книги або рекомендації."
-            
-            return JsonResponse({'response': response_message})
+        books_info = "\n".join([
+            f"Книга: {b['title']}, Автор: {b['author__name']}, Жанр: {b['genre']}, "
+            f"Ціна: {b['price']} грн, Наявність: {b['stock']} шт. Про:{b['description']} "
+            for b in books_data if b['author__name']
+        ])
 
         data = {
             "messages": [
                 {"role": "system", "content": "You are an online consultant for a book store. Your task is to help customers find books, provide recommendations, answer questions about books, and assist with the shopping process."},
-                {"role": "user", "content": user_message}
+                {"role": "user", "content": user_message},
+                {"role": "assistant", "content": f"Доступні книги в магазині:\n{books_info}"}
             ],
             "model": "grok-2-latest",
             "stream": False,
@@ -209,16 +217,21 @@ def xai_consultant(request):
 
         response = requests.post('https://api.x.ai/v1/chat/completions', headers=headers, json=data)
         response.raise_for_status()
-        
+
         api_response = response.json()
         if 'choices' in api_response and api_response['choices']:
             consultant_response = api_response['choices'][0]['message']['content']
             return JsonResponse({'response': consultant_response})
         else:
-            return JsonResponse({'error': 'Unexpected API response format'}, status=500)
+            return JsonResponse({'error': 'Непередбачуваний формат відповіді API'}, status=500)
 
     except requests.RequestException as e:
+        logger.error(f"Помилка запиту до XAI API: {str(e)}", exc_info=True)
         return JsonResponse({'error': str(e)}, status=500)
+
+    except Exception as e:
+        logger.error(f"Внутрішня помилка сервера: {str(e)}", exc_info=True)
+        return JsonResponse({'error': f'Internal server error: {str(e)}'}, status=500)
 
 
 def consult_page(request):
