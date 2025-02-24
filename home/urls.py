@@ -8,5 +8,4 @@ urlpatterns = [
     path('register/', register),
     path('signout/', signout),
     path('consult/', xai_consultant),
-    path('chat/', consult_page),
 ]
