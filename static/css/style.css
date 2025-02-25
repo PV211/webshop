@@ -1328,7 +1328,7 @@ textarea.input {
 \*----------------------------*/
 
 .aside + .aside {
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .aside > .aside-title {
@@ -1394,7 +1394,7 @@ textarea.input {
 
 .price-filter .input-number {
     display: inline-block;
-    width: calc(50% - 7px);
+    width: calc(50% - 8px);
 }
 
 /*----------------------------*\

@@ -1,3 +1,7 @@
+function addToCart(id) {
+    console.log(id);
+}
+
 $(document).ready(() => {
     $(".toast").toast("show");
 
@@ -10,7 +14,8 @@ $(document).ready(() => {
     const chatBody = document.getElementById("chatBody");
 
     // Відкриття чату
-    openChatButton.onclick = function () {
+    openChatButton.onclick = function (event) {
+        event.stopPropagation();
         chatModal.style.display = "block";
     };
 
@@ -21,7 +26,7 @@ $(document).ready(() => {
 
     // Закриття чату при кліку поза ним
     window.onclick = function (event) {
-        if (event.target == chatModal) {
+        if (!event.target.closest("#chatModal")) {
             chatModal.style.display = "none";
         }
     };
@@ -38,7 +43,7 @@ $(document).ready(() => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    "X-CSRFToken": "{{ csrf_token }}",
+                    "X-CSRFToken": csrftoken,
                 },
                 body: new URLSearchParams({
                     message: message,

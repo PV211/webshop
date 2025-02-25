@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
 def index(request):
-    return render(request, 'home/index.html', {
-        'page_title': 'Головна Сторінка'
+    return render(request, 'cart/index.html', {
+        'page_title': 'Кошик'
     })
