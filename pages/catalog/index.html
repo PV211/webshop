@@ -1,197 +1,182 @@
-{% extends '_layout/index.html' %}
-
-{% block content %}
-
-{% load static %}
-
-<div id="content-panel" class="section">
-    <div class="container">
-        <div class="row">
-            <!-- ASIDE -->
-            <div id="aside" class="col-md-3">
-                <!-- aside Widget -->
-                <div id="aside" class="col-md-3">
-                    <!-- aside Widget -->
-                    <div class="aside">
-                        <h3 class="aside-title">Автори</h3>
-                        <form method="GET">  <!-- Зміна на GET, щоб зберегти параметри в URL -->
-                            <div class="checkbox-filter">
-                                {% for author in all_author %}
-                                <div class="input-checkbox">
-                                    <input type="checkbox" id="author-{{ author.id }}" name="authors" value="{{ author.id }}"
-                                        {% if author.id|stringformat:"d" in request.GET.authors %}checked{% endif %}>
-                                    <label for="author-{{ author.id }}" style="font-size: 1em; padding-left: 5px;">
-                                        <span></span>
-                                        {{ author.name }}
-                                        <small>({{ author.books.count }})</small>
-                                    </label>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            <button type="submit">Фільтрувати</button>
-                        </form>
-                    </div>
-                    <!-- /aside Widget -->
-                </div>
-                    <!-- /aside Widget -->
-
-                <!-- aside Widget -->
-                <div class="aside">
-                    <h3 class="aside-title">Ціна</h3>
-                    <div class="price-filter">
-                        <div id="price-slider"></div>
-                        <div class="input-number price-min">
-                            <input id="price-min" type="number">
-                            <span class="qty-up">+</span>
-                            <span class="qty-down">-</span>
-                        </div>
-                        <span>-</span>
-                    </div>
-                </div>
-                <!-- /aside Widget -->
-
-                <!-- aside Widget -->
-                <div class="aside">
-                    <h3 class="aside-title">Виробники</h3>
-                    <div class="checkbox-filter">
-                        {% for c in all_producers %}
-                        <div class="input-checkbox">
-                            <input type="radio" id="{{ c.id }}" name="producer">
-                            <label for="{{ c.id }}" style="font-size: 1em; padding-left: 5px;">
-                                <span></span>
-                                {{ c.name }}
-                                <small>(144)</small>
-                            </label>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <!-- /aside Widget -->
-
-                <!-- aside Widget -->
-                <div class="aside">
-                    <h3 class="aside-title">Лідери продажів</h3>
-                    <div class="product-widget">
-                        <div class="product-img">
-                            <img src="{% static 'img/product01.png' %}" alt="">
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">Категорія</p>
-                            <h3 class="product-name"><a href="#">Назва товару</a></h3>
-                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        </div>
-                    </div>
-                </div>
-                <!-- /aside Widget -->
-            </div>
-            <!-- /ASIDE -->
-
-            <!-- STORE -->
-            <div id="store" class="col-md-9">
-                <!-- store top filter -->
-                <div class="store-filter clearfix">
-                    <div class="store-sort">
-                        <label style="font-size: 1.05em">
-                            Сортування
-                            <select class="input-select">
-                                <option value="0">За датою</option>
-                                <option value="1">За популяністю</option>
-                            </select>
+{% extends '_layout/index.html' %} {% block content %} {% load static %}
+<form method="GET">
+    <div class="row">
+        <div id="aside" class="col-md-3">
+            <div class="aside">
+                <h3 class="aside-title">Автори</h3>
+                <div class="checkbox-filter">
+                    {% for author in all_author %}
+                    <div class="input-checkbox">
+                        <!--prettier-ignore-->
+                        <input type="checkbox" id="author-{{ author.id }}"
+                            name="authors" value="{{ author.id }}"
+                            {% if author.id|stringformat:"d" in request.GET.authors %}checked{% endif %}>
+                        <label
+                            for="author-{{ author.id }}"
+                            style="font-size: 1em"
+                        >
+                            <span></span>
+                            {{ author.name }}
+                            <small>({{ author.books.count }})</small>
                         </label>
-                        <label style="font-size: 1.05em">
-                            Відображення:
-                            <select class="input-select">
-                                <option value="0">10</option>
-                                <option value="1">20</option>
-                            </select>
-                        </label>
-                    </div>
-                    <ul class="store-grid">
-                        <li class="active"><i class="fa fa-th"></i></li>
-                        <li><a href="#"><i class="fa fa-th-list"></i></a></li>
-                    </ul>
-                </div>
-                <!-- /store top filter -->
-
-                <!-- store products -->
-                <div id="catalog" class="row">
-                    {% for p in page_obj %}
-                    <div class="col-md-4 col-xs-6">
-                        <div class="product">
-                            <div class="product-img">
-                                <img src="/media/{{ p.cover_image }}" alt="{{ p.title }}">
-                                <div class="product-label">
-                                    <span class="sale">-30%</span>
-                                    <span class="new">Новий</span>
-                                </div>
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">{{ p.genre }}</p>
-                                <h3 class="product-name"><a href="#">{{ p.title }}</a></h3>
-                                <h4 class="product-price">{{ p.price }} грн</h4>
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product-btns">
-                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Додати обраних</span></button>
-                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Порівняння</span></button>
-                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">перегляд</span></button>
-                                </div>
-                            </div>
-                            <div class="add-to-cart">
-                                <input type="hidden" value="{{ p.id }}">
-                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> До кошика</button>
-                            </div>
-                        </div>
                     </div>
                     {% endfor %}
                 </div>
-                <!-- /store products -->
-
-                <!-- store bottom filter -->
-                <div class="store-filter clearfix">
-                    <span class="store-qty">Показано {{ page_obj.paginator.count }} товарів</span>
-                    
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            {% if page_obj.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=1">Перша</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Попередня</a>
-                                </li>
-                            {% endif %}
-                
-                            <li class="page-item active">
-                                <span class="page-link">
-                                    Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
-                                </span>
-                            </li>
-                
-                            {% if page_obj.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Остання</a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-
-
-                </div>
-                <!-- /store bottom filter -->
             </div>
-            <!-- /STORE -->
+
+            <div class="aside">
+                <h3 class="aside-title">Ціна</h3>
+                <div class="price-filter">
+                    <div id="price-slider"></div>
+                    <div class="input-number price-min">
+                        <input
+                            id="price-min"
+                            name="price_min"
+                            type="number"
+                            value="{{min_price}}"
+                        />
+                        <span class="qty-up">+</span>
+                        <span class="qty-down">-</span>
+                    </div>
+                    <span>-</span>
+                    <div class="input-number price-max">
+                        <input
+                            id="price-max"
+                            name="price_max"
+                            type="number"
+                            value="{{max_price}}"
+                        />
+                        <span class="qty-up">+</span>
+                        <span class="qty-down">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aside">
+                <h3 class="aside-title">Жанри</h3>
+                <div class="checkbox-filter">
+                    {% for genre in all_genres %}
+                    <div class="input-checkbox">
+                        <!--prettier-ignore-->
+                        <input type="checkbox" id="genre-{{ genre.id }}"
+                            name="genres" value="{{ genre.id }}"
+                            {% if genre.id|stringformat:"d" in request.GET.genres %}checked{% endif %}>
+                        <label
+                            for="genre-{{ genre.id }}"
+                            style="font-size: 1em"
+                        >
+                            <span></span>
+                            {{ genre.name }}
+                            <small>({{ genre.books.count }})</small>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <button class="btn btn-danger w-100 mt-5" type="submit">
+                Фільтрувати
+            </button>
+        </div>
+
+        <div id="store" class="col-md-9">
+            <div class="store-filter clearfix">
+                <div class="store-sort">
+                    <label style="font-size: 1.05em">
+                        Сортування
+                        <select
+                            class="input-select"
+                            name="sort"
+                            onchange="this.form.submit()"
+                        >
+                            <option value="0">За датою</option>
+                            <option value="1">За популяністю</option>
+                        </select>
+                    </label>
+                    <label style="font-size: 1.05em">
+                        Відображення:
+                        <select
+                            class="input-select"
+                            name="per_page"
+                            onchange="this.form.submit()"
+                        >
+                            <option value="0">10</option>
+                            <option value="1">20</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div id="catalog" class="row">
+                {% for p in page_obj %}
+                <div class="col-md-4 col-xs-6 align-content-end">
+                    <div class="product">
+                        <div class="product-img">
+                            <img
+                                src="/media/{{ p.cover_image }}"
+                                alt="{{ p.title }}"
+                            />
+                        </div>
+                        <div class="product-body">
+                            <p class="product-category">{{ p.genre }}</p>
+                            <h3 class="product-name">
+                                <a href="#">{{ p.title }}</a>
+                            </h3>
+                            <h4 class="product-price">{{ p.price }} грн</h4>
+                            <div class="product-btns">
+                                <button class="add-to-wishlist" type="button">
+                                    <i class="fa fa-heart"></i>
+                                    <span class="tooltipp">Додати обраних</span>
+                                </button>
+                                <button class="quick-view" type="button">
+                                    <a href="/catalog/{{p.id}}">
+                                        <i class="fa fa-eye"></i>
+                                        <span class="tooltipp">перегляд</span>
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="add-to-cart">
+                            <button
+                                class="add-to-cart-btn"
+                                type="button"
+                                onclick="addToCart('{{p.id}}')"
+                            >
+                                <i class="fa fa-shopping-cart"></i>
+                                До кошика
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="store-filter clearfix">
+                <!--prettier-ignore-->
+                <span class="store-qty">
+                    Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
+                </span>
+                <ul class="store-pagination">
+                    {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page={{ page_obj.previous_page_number }}">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    <li class="active">{{ page_obj.number }}</li>
+
+                    {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<script src="{% static 'js/cart.js' %}"></script>
-
+</form>
+<script src="{% static 'js/catalog.js' %}"></script>
 {% endblock content %}

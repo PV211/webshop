@@ -8,10 +8,16 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+class Genre(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Назва жанру")
+
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     title = models.CharField(max_length=255, verbose_name="Назва книги")
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books", verbose_name="Автор")
-    genre = models.CharField(max_length=100, verbose_name="Жанр")
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name="books", verbose_name="Женр")
     pages = models.PositiveIntegerField(verbose_name="Кількість сторінок")
     cover_image = models.ImageField(upload_to='book_covers/', null=True, blank=True, verbose_name="Обкладинка")
     description = models.TextField(blank=True, verbose_name="Опис")
