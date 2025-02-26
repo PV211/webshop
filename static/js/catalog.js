@@ -1,4 +1,14 @@
+const data = document.currentScript.dataset;
+
 $(document).ready(() => {
+    if (data.sort != "") {
+        document.querySelector("select[name='sort']").value = data.sort;
+    }
+
+    if (data.per_page != "") {
+        document.querySelector("select[name='per_page']").value = data.per_page;
+    }
+
     // Input number
     $(".input-number").each(function () {
         var $this = $(this),
@@ -45,12 +55,19 @@ $(document).ready(() => {
     var priceSlider = document.getElementById("price-slider");
     if (priceSlider) {
         noUiSlider.create(priceSlider, {
-            start: [Number(priceInputMin.value), Number(priceInputMax.value)],
+            start: [
+                data.current_min_price == ""
+                    ? data.min_price
+                    : Number(data.current_min_price),
+                data.current_max_price == ""
+                    ? data.max_price
+                    : Number(data.current_max_price),
+            ],
             connect: true,
-            step: 1,
+            step: 0.01,
             range: {
-                min: Number(priceInputMin.value),
-                max: Number(priceInputMax.value),
+                min: Number(data.min_price),
+                max: Number(data.max_price),
             },
         });
 
