@@ -54,3 +54,11 @@ def index(request):
     response['min_price'] = prices['min_price']
 
     return render(request, 'catalog/index.html', response)
+
+def book(request, id):
+    book = Book.objects.get(id = id)
+
+    return render(request, 'catalog/book.html', {
+        'page_title': book.title,
+        'book': book
+    })
