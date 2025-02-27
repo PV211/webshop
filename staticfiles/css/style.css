@@ -1,79 +1,74 @@
-/* 🎨 Основна палітра */
+/* 🎨 Основна кольорова палітра */
 :root {
-    --primary-color: #3498db;
+    --primary-color: #3498db; /* Синій */
     --primary-hover: #2980b9;
-    --secondary-color: #2ecc71;
+    --secondary-color: #2ecc71; /* Зелений */
     --secondary-hover: #27ae60;
-    --bg-color: #f8f8f8;
+    --bg-color: #f4f4f4;
     --text-color: #333;
     --border-color: #ddd;
     --card-bg: #ffffff;
 }
 
-/* 🌟 Основний контейнер */
-.product-add-container {
+/* 🌟 Загальні стилі */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: var(--bg-color);
+    margin: 0;
 }
 
-/* 📦 Карта (форма додавання) */
-.product-add-card {
+/* 📦 Карта (Card UI) */
+.card {
     background-color: var(--card-bg);
-    padding: 25px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 420px;
+    width: 400px;
     text-align: center;
 }
 
 /* 🏷️ Заголовок */
-.product-add-title {
+.card-title {
     font-size: 22px;
     color: var(--primary-color);
     margin-bottom: 15px;
 }
 
 /* 📑 Поля форми */
-.product-add-form-group {
+.form-group {
     margin-bottom: 15px;
     text-align: left;
 }
 
-.product-add-label {
+.form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: var(--text-color);
 }
 
-.product-add-input,
-.product-add-select,
-.product-add-textarea {
+.form-group input,
+.form-group select,
+.form-group textarea {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    font-size: 14px;
 }
 
-.product-add-textarea {
-    resize: vertical;
-}
-
-/* 📷 Поле для завантаження файлу */
-.product-add-file {
-    width: 100%;
+/* 📷 Поле для зображення */
+input[type="file"] {
     padding: 5px;
 }
 
 /* ✅ Кнопки */
-.product-add-btn-primary {
+.btn-primary {
     background-color: var(--primary-color);
     color: white;
-    padding: 12px;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -81,48 +76,47 @@
     font-size: 16px;
 }
 
-.product-add-btn-primary:hover {
+.btn-primary:hover {
     background-color: var(--primary-hover);
 }
 
-.product-add-btn-secondary {
+.btn-secondary {
     display: inline-block;
     margin-top: 10px;
     text-decoration: none;
     color: white;
     background-color: var(--secondary-color);
-    padding: 12px;
+    padding: 10px;
     border-radius: 5px;
     width: 100%;
     text-align: center;
     font-size: 16px;
 }
 
-.product-add-btn-secondary:hover {
+.btn-secondary:hover {
     background-color: var(--secondary-hover);
 }
 
 /* 🔔 Повідомлення */
-.product-add-messages {
+.messages {
     margin-bottom: 10px;
 }
 
-.product-add-message {
+.message {
     padding: 10px;
     border-radius: 5px;
     font-size: 14px;
 }
 
-.product-add-message.success {
+.message.success {
     background-color: #d4edda;
     color: #155724;
 }
 
-.product-add-message.error {
+.message.error {
     background-color: #f8d7da;
     color: #721c24;
 }
-
 /* ====================================================== */
 
 .back-link:hover {

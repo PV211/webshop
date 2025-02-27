@@ -1,0 +1,39 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати жанр</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin_forms.css' %}">
+</head>
+<body>
+    <div class="admin-form-container">
+        <div class="admin-form-card">
+            <h2 class="admin-form-title">📖 Додати жанр</h2>
+
+            {% if messages %}
+                <div class="admin-form-messages">
+                    {% for message in messages %}
+                        <p class="admin-form-message {{ message.tags }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" class="admin-form">
+                {% csrf_token %}
+
+                <div class="admin-form-group">
+                    <label for="name" class="admin-form-label">Назва жанру:</label>
+                    <input type="text" name="name" id="name" class="admin-form-input" required>
+                </div>
+
+                <button type="submit" class="admin-form-btn">Додати жанр</button>
+            </form>
+
+            <a href="{% url 'product_dashboard' %}" class="admin-form-btn-secondary">⬅ Назад</a>
+        </div>
+    </div>
+</body>
+</html>

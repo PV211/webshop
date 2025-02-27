@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати книгу</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="product-add-container">
+        <div class="product-add-card">
+            <h2 class="product-add-title">📚 Додати нову книгу</h2>
+
+            {% if messages %}
+                <div class="product-add-messages">
+                    {% for message in messages %}
+                        <p class="product-add-message {{ message.tags }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data" class="product-add-form">
+                {% csrf_token %}
+
+                <div class="product-add-form-group">
+                    <label for="title" class="product-add-label">Назва книги:</label>
+                    <input type="text" name="title" id="title" class="product-add-input" required>
+                </div>
+
+                <div class="product-add-form-group">
+                    <label for="author" class="product-add-label">Автор:</label>
+                    <select name="author" id="author" class="product-add-select" required>
+                        {% for author in authors %}
+                            <option value="{{ author.id }}">{{ author.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="product-add-form-group">
+                    <label for="genre" class="product-add-label">Жанр:</label>
+                    <select name="genre" id="genre" class="product-add-select" required>
+                        {% for genre in genres %}
+                            <option value="{{ genre.id }}">{{ genre.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="product-add-form-group">
+                    <label for="pages" class="product-add-label">Кількість сторінок:</label>
+                    <input type="number" name="pages" id="pages" class="product-add-input" required>
+                </div>
+
+                <div class="product-add-form-group">
+                    <label for="cover_image" class="product-add-label">Обкладинка:</label>
+                    <input type="file" name="cover_image" id="cover_image" class="product-add-file" accept="image/*">
+                </div>
+
+                <div class="product-add-form-group">
+                    <label for="description" class="product-add-label">Опис:</label>
+                    <textarea name="description" id="description" class="product-add-textarea" rows="4"></textarea>
+                </div>
+
+                <div class="product-add-form-group">
+                    <label for="price" class="product-add-label">Ціна:</label>
+                    <input type="number" name="price" id="price" class="product-add-input" step="0.01" required>
+                </div>
+
+                <div class="product-add-form-group">
+                    <label for="stock" class="product-add-label">Наявність:</label>
+                    <input type="number" name="stock" id="stock" class="product-add-input" required>
+                </div>
+
+                <button type="submit" class="product-add-btn-primary">Додати книгу</button>
+            </form>
+
+            <a href="{% url 'product_list' %}" class="product-add-btn-secondary">⬅ Назад</a>
+        </div>
+    </div>
+</body>
+</html>
