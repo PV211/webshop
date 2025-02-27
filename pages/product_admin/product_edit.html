@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редагування книги</title>
+</head>
+<body>
+    <h1>Редагувати книгу: {{ book.title }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Назва:</label>
+        <input type="text" name="title" value="{{ book.title }}" required><br>
+
+        <label>Ціна:</label>
+        <input type="number" name="price" value="{{ book.price }}" required><br>
+
+        <label>Наявність:</label>
+        <input type="number" name="stock" value="{{ book.stock }}" required><br>
+
+        <button type="submit">Зберегти</button>
+    </form>
+    <a href="{% url 'product_list' %}">Назад</a>
+</body>
+</html>

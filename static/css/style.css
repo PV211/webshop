@@ -1,3 +1,135 @@
+/* 🎨 Основна палітра */
+:root {
+    --primary-color: #3498db;
+    --primary-hover: #2980b9;
+    --secondary-color: #2ecc71;
+    --secondary-hover: #27ae60;
+    --bg-color: #f8f8f8;
+    --text-color: #333;
+    --border-color: #ddd;
+    --card-bg: #ffffff;
+}
+
+/* 🌟 Основний контейнер */
+.product-add-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--bg-color);
+}
+
+/* 📦 Карта (форма додавання) */
+.product-add-card {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 420px;
+    text-align: center;
+}
+
+/* 🏷️ Заголовок */
+.product-add-title {
+    font-size: 22px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* 📑 Поля форми */
+.product-add-form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.product-add-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.product-add-input,
+.product-add-select,
+.product-add-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.product-add-textarea {
+    resize: vertical;
+}
+
+/* 📷 Поле для завантаження файлу */
+.product-add-file {
+    width: 100%;
+    padding: 5px;
+}
+
+/* ✅ Кнопки */
+.product-add-btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+.product-add-btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.product-add-btn-secondary {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: white;
+    background-color: var(--secondary-color);
+    padding: 12px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+}
+
+.product-add-btn-secondary:hover {
+    background-color: var(--secondary-hover);
+}
+
+/* 🔔 Повідомлення */
+.product-add-messages {
+    margin-bottom: 10px;
+}
+
+.product-add-message {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.product-add-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.product-add-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ====================================================== */
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+
 .chat-button {
     position: fixed;
     bottom: 20px;
