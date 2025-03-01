@@ -5,7 +5,7 @@ from catalog.models import Book
 from .models import CartItem
 
 def index(request):
-    cart_items = CartItem.objects.filter(user__id = request.user.id)
+    cart_items = CartItem.objects.filter(user = request.user)
 
     return render(request, 'cart/index.html', {
         'page_title': 'Кошик',
@@ -13,7 +13,7 @@ def index(request):
     })
 
 def checkout(request):
-    cart_items = CartItem.objects.filter(user__id = request.user.id)
+    cart_items = CartItem.objects.filter(user = request.user)
 
     return render(request, 'cart/checkout.html', {
         'page_title': 'Підтвердження',
@@ -56,7 +56,6 @@ def change(request, id):
     return JsonResponse({"success": True})
 
 def count(request):
-    uid = request.user.id
-    cart_items = CartItem.objects.filter(user__id = uid)
+    cart_items = CartItem.objects.filter(user = request.user)
 
     return JsonResponse({"success": True, 'count': len(cart_items)})

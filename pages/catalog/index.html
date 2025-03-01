@@ -143,16 +143,24 @@
                                 {{ p.price|intcomma }} грн
                             </h4>
                             <div class="product-btns">
-                                <button class="add-to-wishlist" type="button">
+                                <button
+                                    class="add-to-wishlist"
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-custom-class="fw-bold fs-6"
+                                    title="До Обраних"
+                                    onclick="fetchWithReload('/favourites/add/{{p.id}}')"
+                                >
                                     <i class="fa fa-heart"></i>
-                                    <span class="tooltipp">До обраних</span>
                                 </button>
-                                <button class="quick-view" type="button">
-                                    <a href="/catalog/book/{{p.id}}">
-                                        <i class="fa fa-eye"></i>
-                                        <span class="tooltipp">перегляд</span>
-                                    </a>
-                                </button>
+                                <a
+                                    href="/catalog/book/{{p.id}}"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-custom-class="fw-bold fs-6"
+                                    title="Перегляд"
+                                >
+                                    <i class="fa fa-eye"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

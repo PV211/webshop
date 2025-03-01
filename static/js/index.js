@@ -19,10 +19,23 @@ function fetchWithReload(url) {
             .then((response) => {
                 $("#cart").text(response.count);
             });
+
+        fetch("/favourites/count")
+            .then((response) => response.json())
+            .then((response) => {
+                $("#favourites").text(response.count);
+            });
     });
 
     $(document).ready(() => {
         $(".toast").toast("show");
+
+        const tooltipTriggerList = document.querySelectorAll(
+            '[data-bs-toggle="tooltip"]'
+        );
+        [...tooltipTriggerList].map(
+            (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+        );
 
         // JavaScript для керування чатом
         const chatModal = document.getElementById("chatModal");

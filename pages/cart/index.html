@@ -71,9 +71,10 @@
                         onclick="fetchWithReload('/cart/remove/{{item.id}}')"
                         class="btn-close"
                     ></button>
-                    <h5 id="price-{{item.id}}">
+                    <h5 id="price-{{item.id}}" class="flex-grow-1">
                         {{item.book.price|multiply:item.quantity|intcomma}} грн
                     </h5>
+                    <small>Додано: {{item.date|date:"d.m.Y"}}</small>
                 </div>
             </div>
             <hr />
