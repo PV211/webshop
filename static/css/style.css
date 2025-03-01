@@ -1,3 +1,8 @@
+.img-cover {
+    width: 180px;
+    height: 180px;
+}
+
 /* 🎨 Основна палітра */
 :root {
     --primary-color: #3498db;
@@ -128,7 +133,6 @@
 .back-link:hover {
     text-decoration: underline;
 }
-
 
 .chat-button {
     position: fixed;
@@ -539,7 +543,7 @@ textarea.input {
 
 .section-title {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     margin-top: 15px;
 }
 
@@ -1098,11 +1102,10 @@ textarea.input {
 \*----------------------------*/
 
 .product {
-    position: relative;
-    margin: 15px 0px;
-    -webkit-box-shadow: 0px 0px 0px 0px #e4e7ed, 0px 0px 0px 1px #e4e7ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     box-shadow: 0px 0px 0px 0px #e4e7ed, 0px 0px 0px 1px #e4e7ed;
-    -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
 
@@ -1112,10 +1115,11 @@ textarea.input {
 }
 
 .product .product-img {
-    position: relative;
+    flex-grow: 1;
+    align-content: center;
 }
 
-.product .product-img > img {
+.product .product-img img {
     width: 100%;
 }
 
@@ -1151,23 +1155,23 @@ textarea.input {
     z-index: 20;
 }
 
-.product .product-body .product-category {
+.product-category {
     text-transform: uppercase;
     font-size: 12px;
     color: #8d99ae;
 }
 
-.product .product-body .product-name {
+.product-name {
     text-transform: uppercase;
     font-size: 14px;
 }
 
-.product .product-body .product-name > a {
+.product-name > a {
     font-weight: 700;
 }
 
-.product .product-body .product-name > a:hover,
-.product .product-body .product-name > a:focus {
+.product-name > a:hover,
+.product-name > a:focus {
     color: #d10024;
 }
 
@@ -1733,7 +1737,7 @@ textarea.input {
     color: #e4e7ed;
 }
 
-.product-details .product-rating > i.fa-star {
+.product-rating > i.fa-star {
     color: #d10024;
 }
 
@@ -1755,7 +1759,7 @@ textarea.input {
     color: #8d99ae;
 }
 
-.product-details .product-available {
+.product-available {
     font-size: 12px;
     text-transform: uppercase;
     font-weight: 700;
@@ -2103,6 +2107,9 @@ textarea.input {
 ===========================================================*/
 
 .billing-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     margin-bottom: 30px;
 }
 
@@ -2112,6 +2119,7 @@ textarea.input {
 
 .order-details {
     position: relative;
+    height: fit-content;
     padding: 0px 30px 30px;
     border-right: 1px solid #e4e7ed;
     border-left: 1px solid #e4e7ed;

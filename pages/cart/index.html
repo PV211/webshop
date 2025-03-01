@@ -1,0 +1,99 @@
+<!--prettier-ignore-->
+{% extends '_layout/index.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+<div class="row g-5">
+    <div class="col-md-8">
+        <hr />
+        {% for item in cart_items %}
+        <div id="book-{{item.id}}">
+            <div class="d-flex gap-2 py-2">
+                <a href="/catalog/book/{{item.book.id}}" class="img-cover">
+                    <img
+                        src="/media/{{item.book.cover_image}}"
+                        class="mw-100 mh-100"
+                    />
+                </a>
+                <div
+                    class="d-flex flex-column justify-content-between flex-grow-1"
+                >
+                    <div>
+                        <h3 class="product-name fs-6">
+                            <a href="/catalog/book/{{item.book.id}}">
+                                {{item.book.title}}
+                            </a>
+                        </h3>
+                        <div class="product-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <span class="product-available ms-0">в наявності</span>
+                        <p>Підходить для безкоштовної доставки</p>
+                    </div>
+                    <div>
+                        <div class="mb-1">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="gift-{{item.id}}"
+                                onchange="updatePrice('{{item.book.price}}', '{{item.id}}')"
+                            />
+                            <label
+                                class="form-check-label"
+                                for="gift-{{item.id}}"
+                            >
+                                Подарунок
+                                <small style="font-size: 10px"
+                                    >( +10 грн )</small
+                                >
+                            </label>
+                        </div>
+                        <div class="input-number" style="width: 100px">
+                            <input
+                                type="number"
+                                class="text-center"
+                                value="1"
+                                id="quantity-{{item.id}}"
+                                onchange="updatePrice('{{item.book.price}}', '{{item.id}}')"
+                            />
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-end gap-2">
+                    <button
+                        onclick="remove('{{item.id}}')"
+                        class="btn-close"
+                    ></button>
+                    <h5 id="price-{{item.id}}">
+                        {{item.book.price|intcomma}} грн
+                    </h5>
+                </div>
+            </div>
+            <hr />
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-4 order-details">
+        <div class="section-title text-center">
+            <h3 class="title">Ваше замовлення</h3>
+        </div>
+        <div class="order-summary">
+            <div class="d-flex justify-content-between align-items-center">
+                <strong>ВСЬОГО:</strong>
+                <strong id="order-total" class="text-danger fs-4"></strong>
+            </div>
+        </div>
+        <a href="/cart/checkout" class="primary-btn order-submit">
+            Наступна Сторінка
+        </a>
+    </div>
+</div>
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock content %}
