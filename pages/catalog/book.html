@@ -1,4 +1,8 @@
-{% extends '_layout/index.html' %} {% block content %} {% load static %}
+<!--prettier-ignore-->
+{% extends '_layout/index.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
 <div class="row">
     <div class="col-md-5 col-md-push-2">
         <img src="/media/{{book.cover_image }}" class="w-100" />
@@ -15,7 +19,7 @@
                 <i class="fa fa-star"></i>
             </div>
             <div>
-                <h3 class="product-price">{{book.price}} грн</h3>
+                <h3 class="product-price">{{book.price|intcomma}} грн</h3>
                 <span class="product-available">в наявності</span>
             </div>
             <p>{{book.description}}</p>
@@ -24,14 +28,14 @@
                 <div class="qty-label">
                     Кількість:
                     <div class="input-number">
-                        <input type="number" value="1" />
+                        <input id="quantity" type="number" value="1" />
                         <span class="qty-up">+</span>
                         <span class="qty-down">-</span>
                     </div>
                 </div>
                 <button
                     class="add-to-cart-btn"
-                    onclick="addToCart('{{book.id}}')"
+                    onclick="(() => window.location.href = `/cart/add/{{book.id}}?quantity=${$('#quantity').val()}`)()"
                 >
                     <i class="fa fa-shopping-cart"></i>
                     до кошика

@@ -1,4 +1,8 @@
-{% extends '_layout/index.html' %} {% block content %} {% load static %}
+<!--prettier-ignore-->
+{% extends '_layout/index.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
 <form method="GET">
     <div class="row">
         <div id="aside" class="col-md-3">
@@ -118,20 +122,26 @@
 
             <div id="catalog" class="row">
                 {% for p in page_obj %}
-                <div class="col-md-4 col-xs-6 align-content-end">
+                <div class="col-md-4 col-xs-6 my-3">
                     <div class="product">
                         <div class="product-img">
-                            <img
-                                src="/media/{{ p.cover_image }}"
-                                alt="{{ p.title }}"
-                            />
+                            <a href="/catalog/book/{{p.id}}">
+                                <img
+                                    src="/media/{{ p.cover_image }}"
+                                    alt="{{ p.title }}"
+                                />
+                            </a>
                         </div>
                         <div class="product-body">
                             <p class="product-category">{{ p.genre }}</p>
                             <h3 class="product-name">
-                                <a href="#">{{ p.title }}</a>
+                                <a href="/catalog/book/{{p.id}}">
+                                    {{ p.title }}
+                                </a>
                             </h3>
-                            <h4 class="product-price">{{ p.price }} грн</h4>
+                            <h4 class="product-price">
+                                {{ p.price|intcomma }} грн
+                            </h4>
                             <div class="product-btns">
                                 <button class="add-to-wishlist" type="button">
                                     <i class="fa fa-heart"></i>
@@ -144,16 +154,6 @@
                                     </a>
                                 </button>
                             </div>
-                        </div>
-                        <div class="add-to-cart">
-                            <button
-                                class="add-to-cart-btn"
-                                type="button"
-                                onclick="addToCart('{{p.id}}')"
-                            >
-                                <i class="fa fa-shopping-cart"></i>
-                                До кошика
-                            </button>
                         </div>
                     </div>
                 </div>
