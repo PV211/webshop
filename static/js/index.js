@@ -1,8 +1,41 @@
+// Функция для передачи messages в request после AJAX запроса
+function fetchWithReload(url) {
+    fetch(url)
+        .then((response) => response.json())
+        .then((response) => {
+            if (response.success) {
+                location.reload();
+            }
+        })
+        .catch((error) => console.error("Ошибка:", error));
+}
+
 (() => {
     const data = document.currentScript.dataset;
 
+    window.addEventListener("pageshow", () => {
+        fetch("/cart/count")
+            .then((response) => response.json())
+            .then((response) => {
+                $("#cart").text(response.count);
+            });
+
+        fetch("/favourites/count")
+            .then((response) => response.json())
+            .then((response) => {
+                $("#favourites").text(response.count);
+            });
+    });
+
     $(document).ready(() => {
         $(".toast").toast("show");
+
+        const tooltipTriggerList = document.querySelectorAll(
+            '[data-bs-toggle="tooltip"]'
+        );
+        [...tooltipTriggerList].map(
+            (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+        );
 
         // JavaScript для керування чатом
         const chatModal = document.getElementById("chatModal");

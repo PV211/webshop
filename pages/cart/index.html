@@ -67,14 +67,25 @@
                     </div>
                 </div>
                 <div class="d-flex flex-column align-items-end gap-2">
-                    <a href="/cart/remove/{{item.id}}" class="btn-close"></a>
-                    <h5 id="price-{{item.id}}">
+                    <button
+                        onclick="fetchWithReload('/cart/remove/{{item.id}}')"
+                        class="btn-close"
+                    ></button>
+                    <h5 id="price-{{item.id}}" class="flex-grow-1">
                         {{item.book.price|multiply:item.quantity|intcomma}} грн
                     </h5>
+                    <small>Додано: {{item.date|date:"d.m.Y"}}</small>
                 </div>
             </div>
             <hr />
         </div>
+        {% empty %}
+        <p>
+            Поки що у вас немає книжок у кошику. Ви можете додати їх у
+            <a href="/catalog">
+                <strong>магазині</strong>
+            </a>
+        </p>
         {% endfor %}
     </div>
 
