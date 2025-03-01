@@ -1,0 +1,108 @@
+<!--prettier-ignore-->
+{% extends '_layout/index.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+{% load custom_filters %}
+<div class="row">
+    <div class="col-md-7">
+        <div class="billing-details">
+            <div class="section-title">
+                <h3 class="title">Адреса Доставки</h3>
+            </div>
+            <input class="form-control" type="text" placeholder="Ім'я" />
+            <input class="form-control" type="text" placeholder="Прізвище" />
+            <input class="form-control" type="text" placeholder="Адреса" />
+            <input class="form-control" type="text" placeholder="Місто" />
+            <input class="form-control" type="text" placeholder="Країна" />
+            <input
+                class="form-control"
+                type="tel"
+                placeholder="Номер Телефону"
+            />
+            <div class="order-notes">
+                <textarea
+                    class="form-control"
+                    rows="5"
+                    placeholder="Примітки до замовлення"
+                ></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 order-details">
+        <div class="section-title text-center">
+            <h3 class="title">Ваше Замовлення</h3>
+        </div>
+        <div class="order-summary">
+            <div class="order-col">
+                <div><strong>КНИГА</strong></div>
+                <div><strong>ВСЬОГО</strong></div>
+            </div>
+            <div class="order-products">
+                {% for item in cart_items %}
+                <div class="order-col">
+                    <div>{{item.quantity}}x {{item.book.title}}</div>
+                    <div id="price-{{item.id}}">
+                        {{item.book.price|multiply:item.quantity|intcomma}} грн
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="order-col">
+                <div>Доставка</div>
+                <div>
+                    <strong>0.00 грн</strong>
+                </div>
+            </div>
+            <div class="order-col">
+                <div>
+                    <strong>ВСЬОГО:</strong>
+                </div>
+                <div>
+                    <strong id="order-total" class="text-danger fs-4"></strong>
+                </div>
+            </div>
+        </div>
+        <div class="payment-method">
+            <div class="input-radio">
+                <input type="radio" name="payment" id="payment-1" />
+                <label for="payment-1">
+                    <span></span>
+                    Visa, Mastercard
+                </label>
+            </div>
+            <div class="input-radio">
+                <input type="radio" name="payment" id="payment-2" />
+                <label for="payment-2">
+                    <span></span>
+                    Приват24
+                </label>
+            </div>
+            <div class="input-radio">
+                <input type="radio" name="payment" id="payment-3" />
+                <label for="payment-3">
+                    <span></span>
+                    Apple Pay
+                </label>
+            </div>
+            <div class="input-radio">
+                <input type="radio" name="payment" id="payment-4" />
+                <label for="payment-4">
+                    <span></span>
+                    Google Pay
+                </label>
+            </div>
+        </div>
+        <div class="input-checkbox">
+            <input type="checkbox" id="terms" required />
+            <label for="terms">
+                <span></span>
+                Я прочитав(ла) і приймаю <a href="#">умови використання</a>
+            </label>
+        </div>
+        <a href="#" class="primary-btn order-submit">Розмістити Замовлення</a>
+    </div>
+</div>
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock content %}

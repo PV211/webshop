@@ -34,12 +34,5 @@ function updateTotalPrice() {
 }
 
 (() => {
-    $(document).ready(() => {
-        $("[id^='book-']").each((_, element) => {
-            const id = parseInt($(element).attr("id").split("-")[1]);
-            const price = parseFloat($(`#price-${id}`).text().replace(",", ""));
-
-            updatePrice(price, id);
-        });
-    });
+    $(document).ready(() => updateTotalPrice());
 })();

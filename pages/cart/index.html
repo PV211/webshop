@@ -3,6 +3,7 @@
 {% block content %}
 {% load static %}
 {% load humanize %}
+{% load custom_filters %}
 <div class="row g-5">
     <div class="col-md-8">
         <hr />
@@ -68,7 +69,7 @@
                 <div class="d-flex flex-column align-items-end gap-2">
                     <a href="/cart/remove/{{item.id}}" class="btn-close"></a>
                     <h5 id="price-{{item.id}}">
-                        {{item.book.price|intcomma}} грн
+                        {{item.book.price|multiply:item.quantity|intcomma}} грн
                     </h5>
                 </div>
             </div>
