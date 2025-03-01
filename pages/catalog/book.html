@@ -35,7 +35,7 @@
                 </div>
                 <button
                     class="add-to-cart-btn"
-                    onclick="(() => window.location.href = `/cart/add/{{book.id}}?quantity=${$('#quantity').val()}`)()"
+                    onclick="(() => fetchWithReload(`/cart/add/{{book.id}}?quantity=${$('#quantity').val()}`))()"
                 >
                     <i class="fa fa-shopping-cart"></i>
                     до кошика

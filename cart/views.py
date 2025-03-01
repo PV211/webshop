@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib import messages
 from django.http import JsonResponse
 from catalog.models import Book
@@ -36,14 +36,14 @@ def add(request, id):
     else:
         messages.error(request, 'Помилка, книга не знайдена')
     
-    return redirect(f"/catalog/book/{id}")
+    return JsonResponse({"success": True})
 
 def remove(request, id):
     CartItem.objects.get(id = id).delete()
 
     messages.success(request, 'Книга видалена з кошика')
 
-    return redirect('/cart')
+    return JsonResponse({"success": True})
 
 def change(request, id):
     quantity = request.GET.get('quantity')
@@ -54,3 +54,9 @@ def change(request, id):
     cart_item.save()
 
     return JsonResponse({"success": True})
+
+def count(request):
+    uid = request.user.id
+    cart_items = CartItem.objects.filter(user__id = uid)
+
+    return JsonResponse({"success": True, 'count': len(cart_items)})

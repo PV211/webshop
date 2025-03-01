@@ -28,10 +28,9 @@ def signin(request):
 
     if request.method == "POST":
         name = request.POST.get('name')
-        email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(request, username = name, email = email, password = password)
+        user = authenticate(request, username = name, password = password)
 
         if user:
             login(request, user)
