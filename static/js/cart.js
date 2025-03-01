@@ -1,13 +1,16 @@
-function updatePrice(price, id) {
-    const priceElm = $(`#price-${id}`);
-    const checkbox = $(`#gift-${id}`);
-    let newPrice = $(`#quantity-${id}`).val() * price;
+async function updatePrice(price, id, update = false) {
+    const quantity = $(`#quantity-${id}`).val();
+    let newPrice = quantity * price;
 
-    if (checkbox.is(":checked")) {
+    if ($(`#gift-${id}`).is(":checked")) {
         newPrice += 10;
     }
 
-    priceElm.text(`${formatPrice(newPrice)} грн`);
+    if (update) {
+        await fetch(`/cart/change/${id}?quantity=${quantity}`);
+    }
+
+    $(`#price-${id}`).text(`${formatPrice(newPrice)} грн`);
 
     updateTotalPrice();
 }
@@ -30,16 +33,13 @@ function updateTotalPrice() {
     totalPriceElm.text(`${formatPrice(total)} грн`);
 }
 
-async function remove(id) {
-    await fetch(`/cart/remove/${id}`)
-        .then((response) => response.json())
-        .then((response) => {
-            if (response.success) {
-                $(`#book-${id}`).remove();
-            }
-        });
-}
-
 (() => {
-    $(document).ready(() => updateTotalPrice());
+    $(document).ready(() => {
+        $("[id^='book-']").each((_, element) => {
+            const id = parseInt($(element).attr("id").split("-")[1]);
+            const price = parseFloat($(`#price-${id}`).text().replace(",", ""));
+
+            updatePrice(price, id);
+        });
+    });
 })();

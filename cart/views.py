@@ -16,17 +16,20 @@ def checkout(request):
     cart_items = CartItem.objects.filter(user__id = request.user.id)
 
     return render(request, 'cart/checkout.html', {
-        'page_title': 'Адреса Доставки',
+        'page_title': 'Підтвердження',
         'cart_items': cart_items
     })
 
 def add(request, id):
+    quantity = request.GET.get('quantity')
+
     book = Book.objects.get(id = id)
 
     if book:
         CartItem.objects.create(
             book = book,
-            user = request.user
+            user = request.user,
+            quantity = quantity if quantity else 1
         )
 
         messages.success(request, "Книга додана до кошика")
@@ -37,5 +40,17 @@ def add(request, id):
 
 def remove(request, id):
     CartItem.objects.get(id = id).delete()
+
+    messages.success(request, 'Книга видалена з кошика')
+
+    return redirect('/cart')
+
+def change(request, id):
+    quantity = request.GET.get('quantity')
+
+    cart_item = CartItem.objects.get(id = id)
+    cart_item.quantity = quantity if quantity else cart_item.quantity
+
+    cart_item.save()
 
     return JsonResponse({"success": True})

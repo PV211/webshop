@@ -28,17 +28,18 @@
                 <div class="qty-label">
                     Кількість:
                     <div class="input-number">
-                        <input type="number" value="1" />
+                        <input id="quantity" type="number" value="1" />
                         <span class="qty-up">+</span>
                         <span class="qty-down">-</span>
                     </div>
                 </div>
-                <a href="/cart/add/{{book.id}}">
-                    <button class="add-to-cart-btn">
-                        <i class="fa fa-shopping-cart"></i>
-                        до кошика
-                    </button>
-                </a>
+                <button
+                    class="add-to-cart-btn"
+                    onclick="(() => window.location.href = `/cart/add/{{book.id}}?quantity=${$('#quantity').val()}`)()"
+                >
+                    <i class="fa fa-shopping-cart"></i>
+                    до кошика
+                </button>
             </div>
 
             <ul class="product-btns">
