@@ -7,7 +7,40 @@ function fetchWithReload(url) {
                 location.reload();
             }
         })
-        .catch((error) => console.error("Ошибка:", error));
+        .catch((error) => console.error("Помилка:", error));
+}
+
+// Функция для отмены отправки при выделении пустого значения для select и конкатенации параметров
+function formConcat(event, concat, ...names) {
+    const form = event.target;
+
+    for (const name of names) {
+        const input = $(form).find(`[name='${name}']`);
+
+        if (input.val() == "") {
+            input.removeAttr("name");
+        }
+    }
+
+    if (concat) {
+        event.preventDefault();
+
+        const formData = $(form).serialize();
+        const currentParams = new URLSearchParams(window.location.search);
+
+        formData.split("&").forEach((param) => {
+            const [key, value] = param.split("=");
+            currentParams.set(key, value);
+        });
+
+        const newUrl = `${
+            window.location.pathname
+        }?${currentParams.toString()}`;
+
+        console.log(newUrl);
+
+        window.location.href = newUrl;
+    }
 }
 
 (() => {
