@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from django.db.models import Max, Min
+from django.db.models import Max, Min, Q
 from django.utils.http import urlencode
 from .models import *
 
@@ -22,6 +22,7 @@ def index(request):
     current_min_price = request.GET.get('current_min_price')
     current_max_price = request.GET.get('current_max_price')
     sort = request.GET.get('sort')
+    search = request.GET.get('search')
 
     if selected_author_ids:
         selected_author_ids = list(map(int, selected_author_ids))
@@ -39,6 +40,13 @@ def index(request):
         current_max_price = float(current_max_price)
         all_books = all_books.filter(price__lte = current_max_price)
     
+    if search:
+        all_books = all_books.filter(
+            Q(title__icontains = search) |
+            Q(author__name__icontains = search) |
+            Q(genre__name__icontains = search)
+        ).distinct()
+    
     all_books = all_books.order_by(sort if sort else "title")
 
     paginator = Paginator(all_books, int(per_page) if per_page else 9)
@@ -47,9 +55,12 @@ def index(request):
 
     response['page_title'] = 'Каталог'
     response['page_obj'] = page_obj
+    response['books_count'] = len(all_books)
     response['query_params'] = urlencode(params, True)
     response['all_author'] = all_authors
     response['all_genres'] = all_genres
+    response['selected_author_ids'] = selected_author_ids
+    response['selected_genre_ids'] = selected_genre_ids
     response['max_price'] = prices['max_price']
     response['min_price'] = prices['min_price']
 

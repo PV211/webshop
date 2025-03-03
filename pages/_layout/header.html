@@ -1,27 +1,34 @@
 {% load static %}
 <div id="header" class="bg-dark">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-3">
-                <a href="/">
-                    <img
-                        src="{% static 'img/logo.png' %}"
-                        style="width: 60px"
-                    />
-                </a>
-            </div>
-            <div class="col-md-6">
+        <div class="d-flex align-items-center gap-3">
+            <a href="/">
+                <img src="{% static 'img/logo.png' %}" style="width: 60px" />
+            </a>
+            <div class="d-flex m-auto">
                 <div class="header-search">
-                    <form>
-                        <select class="input-select">
-                            <option value="0">Всі категорії</option>
+                    <form
+                        action="/catalog"
+                        class="d-flex"
+                        onsubmit="formConcat(event, false, 'genres', 'search')"
+                    >
+                        <select class="input-select" name="genres">
+                            <option value="">Всі категорії</option>
+                            {% for genre in genres %}
+                            <option value="{{genre.id}}">{{genre}}</option>
+                            {% endfor %}
                         </select>
-                        <input class="input" placeholder="Шукати тут" />
+                        <input
+                            name="search"
+                            class="input"
+                            placeholder="Шукати тут"
+                            value="{{request.GET.search}}"
+                        />
                         <button class="search-btn">Пошук</button>
                     </form>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div>
                 <div class="header-ctn">
                     <div>
                         <a href="/favourites/">

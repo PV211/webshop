@@ -718,13 +718,12 @@ textarea.input {
 }
 
 .header-search form .input {
-    width: calc(100% - 260px);
     margin-right: -4px;
 }
 
 .header-search form .search-btn {
     height: 40px;
-    width: 100px;
+    width: 200px;
     background: #4049c7;
     color: #fff;
     font-weight: 700;
