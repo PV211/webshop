@@ -25,19 +25,18 @@ function formConcat(event, concat, ...names) {
     if (concat) {
         event.preventDefault();
 
-        const formData = $(form).serialize();
-        const currentParams = new URLSearchParams(window.location.search);
+        const formData = new FormData(form);
+        const params = new URLSearchParams(window.location.search);
 
-        formData.split("&").forEach((param) => {
-            const [key, value] = param.split("=");
-            currentParams.set(key, value);
-        });
+        $(form)
+            .find("[name]")
+            .each((index, element) => params.delete($(element).attr("name")));
 
-        const newUrl = `${
-            window.location.pathname
-        }?${currentParams.toString()}`;
+        for (const [key, value] of formData.entries()) {
+            params.append(key, value);
+        }
 
-        console.log(newUrl);
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
 
         window.location.href = newUrl;
     }
