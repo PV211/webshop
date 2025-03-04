@@ -1,0 +1,84 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.hero {
+    background: url('https://source.unsplash.com/1600x600/?books,library') no-repeat center/cover;
+    padding: 80px 20px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.about-books {
+    max-width: 900px;
+    margin: 50px auto;
+    text-align: left;
+}
+
+.book-feature {
+    display: flex;
+    align-items: center;
+    background: white;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.book-feature img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.book-text {
+    padding: 20px;
+}
+
+.reverse {
+    flex-direction: row-reverse;
+}
+
+.book-slider {
+    margin-top: 50px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px;
+    scroll-snap-type: x mandatory;
+}
+
+.slide img {
+    width: 150px;
+    height: auto;
+    border-radius: 5px;
+    scroll-snap-align: center;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    background: #333;
+    color: white;
+}

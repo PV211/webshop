@@ -13,8 +13,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 def index(request):
+    books = Book.objects.all()[:10]  # Отримає 10 книг з бази
     return render(request, 'home/index.html', {
-        'page_title': 'Головна Сторінка'
+        'page_title': 'Головна Сторінка',
+        'books': books  
     })
 
 def contact(request):
