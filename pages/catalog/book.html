@@ -44,10 +44,13 @@
 
             <ul class="product-btns">
                 <li>
-                    <a href="#">
+                    <button
+                        class="btn p-0"
+                        onclick="fetchWithReload('/favourites/add/{{book.id}}')"
+                    >
                         <i class="fa fa-heart"></i>
                         До обраних
-                    </a>
+                    </button>
                 </li>
             </ul>
 
