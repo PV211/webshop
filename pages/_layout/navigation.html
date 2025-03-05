@@ -16,6 +16,12 @@
             <li>
                 <a class="nav-link" href="/contact/">Контакти</a>
             </li>
+            {% if user.is_staff %}
+            <li>
+                <a class="nav-link" href="/secure-admin/">Адмінка</a>
+            </li>
+            {% endif %}
+            
         </ul>
         <ul class="main-nav d-flex">
             {% if user.is_authenticated %}
