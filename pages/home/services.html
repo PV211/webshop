@@ -1,0 +1,98 @@
+{% extends '_layout/index.html' %} 
+{% load static %} 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/services.css' %}" />
+{% endblock css %} 
+
+{% block content %}
+
+<header class="hero">
+    <h1 class="hero-title" style="color: #c4c8ca; text-align: center">Наші сервіси 🚀</h1>
+</header>
+<br /><br />
+
+<section class="services-section">
+    <div class="services-feature">
+        <img
+            style="display: block; margin: auto; max-width: 70%"
+            src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg"
+            alt="Сервіси та можливості"
+        />
+        <div class="services-text mt-5">
+            <h2 style="color: #c4c8ca; text-align: center; font-size: 24px">
+                Ми пропонуємо широкий спектр сервісів для книголюбів та видавців
+            </h2>
+            <p style="color: #fff; text-align: justify; font-size: 18px">
+                Наші послуги спрямовані на підтримку читачів, авторів та книгарень. Ми створюємо комфортне середовище для пошуку та обміну книгами.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="services-list">
+    <h2 style="text-align: center; color: #c4c8ca; font-size: 28px">📌 Наші сервіси</h2>
+    <ul style="color: #fff; list-style: none; padding: 0; font-size: 18px">
+        <li>✔ <strong>Каталог книг</strong> – шукайте та замовляйте найкращі книги.</li>
+        <li>✔ <strong>Буккросинг</strong> – обмінюйтесь книгами з іншими читачами.</li>
+        <li>✔ <strong>Рекомендації</strong> – отримуйте персоналізовані підбірки книг.</li>
+        <li>✔ <strong>Авторські зустрічі</strong> – події та вебінари з відомими письменниками.</li>
+    </ul>
+</section>
+
+<section class="popular-brands">
+    <h2 style="text-align: center; color: #c4c8ca; font-size: 26px">🏆 Популярні бренди</h2>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            {% for brand in brands %}
+            <div class="swiper-slide">
+                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" />
+                <h3>{{ brand.name }}</h3>
+            </div>
+            {% empty %}
+            <p>Брендів поки немає.</p>
+            {% endfor %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<section class="navigation-buttons">
+    <h2 style="text-align: center; color: #c4c8ca; font-size: 26px; margin-top: 5%;">🔗 Корисні посилання</h2>
+    <div class="d-flex justify-content-center gap-3 mt-3">
+        <a href="" class="btn btn-primary">Каталог книг</a>
+        <a href="" class="btn btn-success">Контакти</a>
+    </div>
+</section>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+            },
+        });
+    });
+</script>
+
+{% endblock content %}
