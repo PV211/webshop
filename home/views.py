@@ -77,9 +77,15 @@ def signout(request):
 
     return redirect('/')
 
+def about(request):
+    return render(request, 'home/about.html', {
+        'page_title': 'Про нас'
+    })
 
-
-
+def services(request):
+    return render(request, 'home/services.html', {
+        'page_title': 'Послуги'
+    })
 
 @login_required
 @require_POST
