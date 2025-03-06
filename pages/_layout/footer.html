@@ -1,0 +1,87 @@
+{% load static %}
+<div class="section">
+    <div class="container">
+        <div class="row footer">
+            <div class="col-md-3 col-xs-6">
+                <div class="text-center">
+                    <a href="/">
+                        <img
+                            src="{% static 'img/logo.png' %}"
+                            style="width: 100px"
+                        />
+                    </a>
+                </div>
+                <hr />
+                <ul class="footer-links">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-map-marker"></i>
+                            Київ, Україна
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-phone"></i>
+                            +380-99-9999
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-envelope"></i>
+                            books.web@gmail.com
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 col-xs-6">
+                <h3 class="footer-title">Жанри</h3>
+                <ul class="footer-links">
+                    {% for genre in genres %}
+                    <li>
+                        <a href="/catalog?genres={{genre.id}}">{{genre}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3 col-xs-6">
+                <h3 class="footer-title">Інформація</h3>
+                <ul class="footer-links">
+                    <li>
+                        <a href="/about">Про нас</a>
+                    </li>
+                    <li>
+                        <a href="/services">Послуги</a>
+                    </li>
+                    <li>
+                        <a href="/contact">Контакти</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 col-xs-6">
+                <h3 class="footer-title">Послуги</h3>
+                <ul class="footer-links">
+                    <li>
+                        <a href="/catalog">Каталог</a>
+                    </li>
+                    <li>
+                        <a href="/cart">Кошик</a>
+                    </li>
+                    <li>
+                        <a href="/favourites">Обране</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="bottom-footer" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <span class="copyright">
+                    📖 Читай більше — пізнавай більше! © 2025
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

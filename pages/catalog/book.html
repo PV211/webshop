@@ -1,0 +1,77 @@
+<!--prettier-ignore-->
+{% extends '_layout/index.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+<div class="row">
+    <div class="col-md-5 col-md-push-2">
+        <img src="/media/{{book.cover_image }}" class="w-100" />
+    </div>
+
+    <div class="col-md-5">
+        <div class="product-details">
+            <h2 class="product-name">{{book.title}}</h2>
+            <div class="product-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            <div>
+                <h3 class="product-price">{{book.price|intcomma}} грн</h3>
+                <span class="product-available">в наявності</span>
+            </div>
+            <p>{{book.description}}</p>
+
+            <div class="add-to-cart">
+                <div class="qty-label">
+                    Кількість:
+                    <div class="input-number">
+                        <input id="quantity" type="number" value="1" />
+                        <span class="qty-up">+</span>
+                        <span class="qty-down">-</span>
+                    </div>
+                </div>
+                <button
+                    class="add-to-cart-btn"
+                    onclick="(() => fetchWithReload(`/cart/add/{{book.id}}?quantity=${$('#quantity').val()}`))()"
+                >
+                    <i class="fa fa-shopping-cart"></i>
+                    до кошика
+                </button>
+            </div>
+
+            <ul class="product-btns">
+                <li>
+                    <button
+                        class="btn p-0"
+                        onclick="fetchWithReload('/favourites/add/{{book.id}}')"
+                    >
+                        <i class="fa fa-heart"></i>
+                        До обраних
+                    </button>
+                </li>
+            </ul>
+
+            <ul class="product-links">
+                <li>Автор:</li>
+                <li>
+                    <a href="/catalog/?authors={{book.author.id}}">
+                        {{book.author}}
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="product-links">
+                <li>Жанр:</li>
+                <li>
+                    <a href="/catalog/?genres={{book.genre.id}}">
+                        {{book.genre}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}

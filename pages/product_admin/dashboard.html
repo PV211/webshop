@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмінка товарів</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin_dashboard.css' %}">
+</head>
+<body>
+    <div class="admin-container">
+        <h1 class="admin-title">📚 Панель керування товарами</h1>
+
+        <ul class="admin-menu">
+            <li><a href="{% url 'product_list' %}" class="admin-link">📖 Список книг</a></li>
+            <li><a href="{% url 'product_add' %}" class="admin-link">➕ Додати книгу</a></li>
+            <li><a href="{% url 'author_add' %}" class="admin-link">✍️ Додати автора</a></li>
+            <li><a href="{% url 'genre_add' %}" class="admin-link">🎭 Додати жанр</a></li>
+        </ul>
+    </div>
+</body>
+</html>

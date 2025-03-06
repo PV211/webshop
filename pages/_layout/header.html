@@ -1,0 +1,51 @@
+{% load static %}
+<div id="header" class="bg-dark">
+    <div class="container">
+        <div class="d-flex align-items-center gap-3">
+            <a href="/">
+                <img src="{% static 'img/logo.png' %}" style="width: 60px" />
+            </a>
+            <div class="d-flex m-auto">
+                <div class="header-search">
+                    <form
+                        action="/catalog"
+                        class="d-flex"
+                        onsubmit="formConcat(event, false, 'genres', 'search')"
+                    >
+                        <select class="input-select" name="genres">
+                            <option value="">Всі категорії</option>
+                            {% for genre in genres %}
+                            <option value="{{genre.id}}">{{genre}}</option>
+                            {% endfor %}
+                        </select>
+                        <input
+                            name="search"
+                            class="input"
+                            placeholder="Шукати тут"
+                            value="{{request.GET.search}}"
+                        />
+                        <button class="search-btn">Пошук</button>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <div class="header-ctn">
+                    <div>
+                        <a href="/favourites/">
+                            <i class="fa fa-heart"></i>
+                            <span>Обране</span>
+                            <div id="favourites" class="qty"></div>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/cart/">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Кошик</span>
+                            <div id="cart" class="qty"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+<!--prettier-ignore-->
+{% extends '_layout/index.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+<form method="get">
+    <div id="store">
+        <div class="store-filter clearfix">
+            <div class="store-sort">
+                <label style="font-size: 1.05em">
+                    Сортування:
+                    <select
+                        class="form-select d-inline w-auto"
+                        name="sort"
+                        onchange="this.form.submit()"
+                    >
+                        <option value="book__title">По назві</option>
+                        <option value="-book__price">По ціні&#x25be;</option>
+                        <option value="book__price">По ціні&#x25b4;</option>
+                        <option value="book__author__name">По автору</option>
+                        <option value="book__genre__name">По жанру</option>
+                        <option value="-book__pages">
+                            По Кількості сторінок&#x25be;
+                        </option>
+                        <option value="book__pages">
+                            По Кількості сторінок&#x25b4;
+                        </option>
+                    </select>
+                </label>
+                <label style="font-size: 1.05em">
+                    Відображення:
+                    <select
+                        class="form-select d-inline w-auto"
+                        name="per_page"
+                        onchange="this.form.submit()"
+                    >
+                        <option value="12">12</option>
+                        <option value="20">20</option>
+                        <option value="28">28</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <div id="catalog" class="row">
+            {% for p in page_obj %}
+            <div class="col-md-3 col-xs-6 my-3">
+                <div class="product">
+                    <div class="product-img">
+                        <a href="/catalog/book/{{p.book.id}}">
+                            <img
+                                src="/media/{{ p.book.cover_image }}"
+                                alt="{{ p.book.title }}"
+                            />
+                        </a>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-category">{{ p.book.genre }}</p>
+                        <h3 class="product-name">
+                            <a href="/catalog/book/{{p.book.id}}">
+                                {{ p.book.title }}
+                            </a>
+                        </h3>
+                        <h4 class="product-price">
+                            {{ p.book.price|intcomma }} грн
+                        </h4>
+                        <div class="product-btns">
+                            <button
+                                class="add-to-wishlist"
+                                type="button"
+                                data-bs-toggle="tooltip"
+                                data-bs-custom-class="fw-bold fs-6"
+                                title="Видалити з обраних"
+                                onclick="fetchWithReload('/favourites/remove/{{p.id}}')"
+                            >
+                                <i class="fa-solid fa-heart-circle-xmark"></i>
+                            </button>
+                            <a
+                                href="/catalog/book/{{p.book.id}}"
+                                data-bs-toggle="tooltip"
+                                data-bs-custom-class="fw-bold fs-6"
+                                title="Перегляд"
+                            >
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </div>
+                        <small>Додано: {{p.date|date:"d.m.Y"}}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="store-filter clearfix">
+            <!--prettier-ignore-->
+            <span class="store-qty">
+                        Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
+                    </span>
+            <ul class="store-pagination">
+                {% if page_obj.has_previous %}
+                <li>
+                    <a
+                        href="?{{ query_params }}&page={{ page_obj.previous_page_number }}"
+                    >
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                <li class="active">{{ page_obj.number }}</li>
+
+                {% if page_obj.has_next %}
+                <li>
+                    <a
+                        href="?{{ query_params }}&page={{ page_obj.next_page_number }}"
+                    >
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</form>
+<script
+    src="{% static 'js/favourites.js' %}"
+    data-sort="{{request.GET.sort}}"
+    data-per_page="{{request.GET.per_page}}"
+></script>
+{% endblock content %}

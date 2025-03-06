@@ -1,0 +1,57 @@
+<div class="container">
+    <div id="nav" class="d-flex justify-content-between align-items-center">
+        <ul class="main-nav d-flex">
+            <li>
+                <a class="nav-link" href="/">Головна</a>
+            </li>
+            <li>
+                <a class="nav-link" href="/catalog/">Каталог</a>
+            </li>
+            <li>
+                <a class="nav-link" href="/about/">Про нас</a>
+            </li>
+            <li>
+                <a class="nav-link" href="/services/">Послуги</a>
+            </li>
+            <li>
+                <a class="nav-link" href="/contact/">Контакти</a>
+            </li>
+            {% if user.is_staff %}
+            <li>
+                <a class="nav-link" href="/secure-admin/">Адмінка</a>
+            </li>
+            {% endif %}
+            
+        </ul>
+        <ul class="main-nav d-flex">
+            {% if user.is_authenticated %}
+            <li>
+                <div class="dropdown">
+                    <button
+                        class="btn dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                    >
+                        <i class="fa fa-user"></i>
+                        {{user.username}}
+                    </button>
+                    <ul class="dropdown-menu bg-danger">
+                        <li>
+                            <a class="p-3 text-white" href="/signout">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Вихід
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            {% else %}
+            <li>
+                <a class="nav-link" href="/login/">Вхід</a>
+            </li>
+            <li>
+                <a class="nav-link" href="/register/">Реєстрація</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

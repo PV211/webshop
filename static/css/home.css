@@ -1,0 +1,89 @@
+body {
+    background-image: url("https://st5.depositphotos.com/3138123/72761/i/450/depositphotos_727617380-stock-photo-abstract-blur-background-gradient-smooth.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #fff; /* Робить текст на сторінці білим для кращої видимості */
+}
+
+.book-text {
+    background: rgba(0, 0, 0, 0.6); /* Додає затемнення для читабельності */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.book-slider {
+    text-align: center;
+    margin: 40px auto;
+    max-width: 500px;
+}
+
+.slider-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    text-align: center;
+    padding: 10px;
+    transition: opacity 0.5s;
+}
+
+.slide img {
+    width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.prev:hover,
+.next:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.swiper {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+.swiper-slide {
+    text-align: center;
+    background: #ffffff41;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.swiper-slide img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
