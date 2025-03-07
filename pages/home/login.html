@@ -1,6 +1,7 @@
 {% extends '_layout/index.html' %} {% block content %}
 <form action="/login/" method="post" class="d-flex flex-column gap-4">
     {% csrf_token %}
+    <input type="hidden" name="next" value="{{request.GET.next}}" />
     <div>
         <label for="name" class="form-label">
             Ім'я

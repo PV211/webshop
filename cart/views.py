@@ -3,7 +3,9 @@ from django.contrib import messages
 from django.http import JsonResponse
 from catalog.models import Book
 from .models import CartItem
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url = "/login")
 def index(request):
     cart_items = CartItem.objects.filter(user = request.user)
 

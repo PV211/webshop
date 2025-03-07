@@ -5,7 +5,9 @@ from django.core.paginator import Paginator
 from django.utils.http import urlencode
 from catalog.models import Book
 from .models import FavouriteItem
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url = "/login")
 def index(request):
     per_page = request.GET.get('per_page')
 
