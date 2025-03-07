@@ -11,6 +11,8 @@ from catalog.models import Book
 import logging
 from django.contrib.auth.decorators import login_required
 from cart.models import CartItem
+import random
+
 
 logger = logging.getLogger(__name__)
 
@@ -91,6 +93,7 @@ def services(request):
         'page_title': 'Послуги'
     })
 
+
 @login_required
 @require_POST
 def xai_consultant(request):
@@ -100,9 +103,13 @@ def xai_consultant(request):
     if not user_message:
         return JsonResponse({'error': 'No message provided'}, status=400)
 
-    # Отримуємо список книг
+    # Отримуємо список усіх книг
     books_data = list(Book.objects.values('title', 'author__name', 'price', 'stock'))
-    books_info = "\n".join([f"Книга: {b['title']}, Автор: {b['author__name']}, Ціна: {b['price']} грн, Наявність: {b['stock']} шт." for b in books_data if b['author__name']])
+    all_books_info = "\n".join([f"Книга: {b['title']}, Автор: {b['author__name']}, Ціна: {b['price']} грн, Наявність: {b['stock']} шт." for b in books_data if b['author__name']])
+
+    # Вибираємо випадково 2 книги
+    random_books_data = random.sample(books_data, k=3)
+    random_books_info = "\n".join([f"Книга: {b['title']}, Автор: {b['author__name']}, Ціна: {b['price']} грн, Наявність: {b['stock']} шт." for b in random_books_data])
 
     # Перевіряємо, чи це відповідь на пропозицію додавання
     if request.session.get('proposed_book'):
@@ -139,13 +146,16 @@ def xai_consultant(request):
 
     data = {
         "messages": [
-            {"role": "system", "content": "Ви — консультант книжкового магазину. Якщо користувач запитує про книгу, надайте інформацію з даних і запропонуйте додати її до кошика з питанням 'Чи бажаєте додати цю книгу до кошика? (Відповідь: \"так\" або \"ні\")'. Використовуйте лише надані дані."},
+            {
+                "role": "system",
+                "content": f"Ви — консультант книжкового магазину. Якщо користувач запитує про книгу, яка є в повному списку ({all_books_info}), надайте інформацію про неї і запропонуйте додати до кошика з питанням 'Чи бажаєте додати цю книгу до кошика? (Відповідь: \"так\" або \"ні\")'. Не надавати одразу більше 2 книг. Якщо користувач просить щось порадити надай випадкову книгу зі списку ({random_books_info})."
+            },
             {"role": "user", "content": user_message},
-            {"role": "assistant", "content": f"Доступні книги:\n{books_info}"}
+           
         ],
         "model": "grok-2-latest",
         "stream": False,
-        "temperature": 0
+        "temperature": 0.5
     }
 
     response = requests.post('https://api.x.ai/v1/chat/completions', headers=headers, json=data)
@@ -154,7 +164,6 @@ def xai_consultant(request):
     api_response = response.json()
     if 'choices' in api_response and api_response['choices']:
         consultant_response = api_response['choices'][0]['message']['content']
-        # Шукаємо пропозицію додавання до кошика
         if "чи бажаєте додати цю книгу до кошика" in consultant_response.lower():
             for book in books_data:
                 if book['title'].lower() in consultant_response.lower():
@@ -163,3 +172,4 @@ def xai_consultant(request):
         return JsonResponse({'response': consultant_response})
     else:
         return JsonResponse({'error': 'Неправильна відповідь API'}, status=400)
+
