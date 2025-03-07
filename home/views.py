@@ -33,12 +33,16 @@ def signin(request):
     if request.method == "POST":
         name = request.POST.get('name')
         password = request.POST.get('password')
+        next = request.POST.get('next')
 
         user = authenticate(request, username = name, password = password)
 
         if user:
             login(request, user)
             messages.success(request, 'Авторизація успішна!')
+
+            if next:
+                return redirect(next)
 
             return redirect('/')
         else:
