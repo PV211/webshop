@@ -35,43 +35,22 @@
     </h2>
     <ul style="color: #fff; list-style: none; padding: 0; font-size: 18px">
         <li>
-            ✔ <strong>Каталог книг</strong> – шукайте та замовляйте найкращі
+            ✔ <strong></strong>Каталог книг – шукайте та замовляйте найкращі
             книги.
         </li>
         <li>
-            ✔ <strong>Буккросинг</strong> – обмінюйтесь книгами з іншими
+            ✔ <strong></strong>Буккросинг – обмінюйтесь книгами з іншими
             читачами.
         </li>
         <li>
-            ✔ <strong>Рекомендації</strong> – отримуйте персоналізовані підбірки
+            ✔ <strong></strong>Рекомендації – отримуйте персоналізовані підбірки
             книг.
         </li>
         <li>
-            ✔ <strong>Авторські зустрічі</strong> – події та вебінари з відомими
+            ✔ <strong></strong>Авторські зустрічі – події та вебінари з відомими
             письменниками.
         </li>
     </ul>
-</section>
-
-<section class="popular-brands">
-    <h2 style="text-align: center; color: #c4c8ca; font-size: 26px">
-        🏆 Популярні бренди
-    </h2>
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            {% for brand in brands %}
-            <div class="swiper-slide">
-                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" />
-                <h3>{{ brand.name }}</h3>
-            </div>
-            {% empty %}
-            <p>Брендів поки немає.</p>
-            {% endfor %}
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-    </div>
 </section>
 
 <section class="navigation-buttons">
@@ -80,14 +59,16 @@
             text-align: center;
             color: #c4c8ca;
             font-size: 26px;
-            margin-top: 5%;
+            margin-top: 3%;
         "
     >
         🔗 Корисні посилання
     </h2>
-    <div class="d-flex justify-content-center gap-3 mt-3">
-        <a href="" class="btn btn-primary">Каталог книг</a>
-        <a href="" class="btn btn-success">Контакти</a>
+    <div class="d-flex justify-content-center gap-3 mt-3 mb-3">
+        <a href="/" class="btn btn-danger">Головна</a>
+        <a href="/about/" class="btn btn-warning">Про нас</a>
+        <a href="/catalog/" class="btn btn-primary">Каталог книг</a>
+        <a href="/contact/" class="btn btn-success">Контакти</a>
     </div>
 </section>
 
@@ -96,31 +77,5 @@
     href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
 />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            loop: true,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            breakpoints: {
-                640: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-            },
-        });
-    });
-</script>
 
 {% endblock content %}
